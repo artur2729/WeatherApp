@@ -18,11 +18,11 @@ class WeatherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            openNewsSourcesFragment()
+            openCityDetailsFragment()
         }
     }
 
-    private fun openNewsSourcesFragment() {
+    private fun openCityDetailsFragment() {
         setCurrentFragment(CityDetailsFragment.newInstance(), CityDetailsFragment.TAG)
     }
 

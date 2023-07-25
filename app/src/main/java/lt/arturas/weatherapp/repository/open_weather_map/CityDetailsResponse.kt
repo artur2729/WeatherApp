@@ -22,31 +22,31 @@ import lt.arturas.weatherapp.repository.open_weather_map.CityDetails
 
 data class CityDetailsResponse(
     @SerializedName("base")
-    val base: String,
+    val base: String = "",
     @SerializedName("clouds")
-    val clouds: Clouds,
+    val clouds: Clouds = Clouds(0),
     @SerializedName("cod")
-    val cod: Int,
+    val cod: Int = 0,
     @SerializedName("coord")
-    val coord: Coord,
+    val coord: Coord = Coord(0.0, 0.0),
     @SerializedName("dt")
-    val dt: Int,
+    val dt: Int = 0,
     @SerializedName("id")
-    val id: Int,
+    val id: Int = 0,
     @SerializedName("main")
-    val main: Main,
+    val main: Main = Main(0.0, 0,0,0,0,0.0, 0.0, 0.0),
     @SerializedName("name")
-    val name: String,
+    val name: String = "",
     @SerializedName("sys")
-    val sys: Sys,
+    val sys: Sys = Sys("",0,0),
     @SerializedName("timezone")
-    val timezone: Int,
+    val timezone: Int = 0,
     @SerializedName("visibility")
-    val visibility: Int,
+    val visibility: Int = 0,
     @SerializedName("weather")
-    val weather: List<Weather>,
+    val weather: List<Weather> = listOf(Weather("", "",0, "")),
     @SerializedName("wind")
-    val wind: Wind
+    val wind: Wind = Wind(0, 0.0)
 )
 
 data class Clouds(

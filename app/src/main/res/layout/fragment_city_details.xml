@@ -55,7 +55,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/WeatherImageView"
-        tools:text="Some text" />
+        tools:text="Temp" />
 
     <TextView
         android:id="@+id/humidity"
@@ -73,7 +73,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temp"
-        tools:text="Some text" />
+        tools:text="Humidity" />
 
     <TextView
         android:id="@+id/wind_speed"
@@ -91,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/humidity"
-        tools:text="Some text" />
+        tools:text="Wind_speed" />
 
     <TextView
         android:id="@+id/detailsTextView"
@@ -108,6 +108,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wind_speed"
-        tools:text="City weather details" />
+        tools:text="Other weather details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
