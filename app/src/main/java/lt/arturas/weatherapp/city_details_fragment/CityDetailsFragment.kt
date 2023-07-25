@@ -9,12 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.news.repository.reqres.CityDetailsResponse
 import kotlinx.coroutines.launch
 import lt.arturas.weatherapp.R
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetails
-import lt.arturas.weatherapp.repository.open_weather_map.Main
-import lt.arturas.weatherapp.repository.open_weather_map.Wind
 
 class CityDetailsFragment : Fragment() {
 
@@ -42,19 +40,19 @@ class CityDetailsFragment : Fragment() {
         observeNewsSourcesStateFlow()
     }
 
-    private fun bindCityWeather(city: CityDetails, main: Main, wind: Wind) {
+    private fun bindCityWeather(city: CityDetailsResponse) {
         binding.apply {
             cityName.text = city.name
-            temp.text = main.temp.toString()
-            humidity.text = main.humidity.toString()
-            windSpeed.text = wind.speed.toString()
+            temp.text = city.main.temp.toString()
+            //temp.text = city.main.temp.toString()
+           // humidity.text = city.main.humidity.toString()
+           // windSpeed.text = city.wind.speed.toString()
         }
     }
 
-    private fun submitCityDetails(city: MutableList<CityDetails>) {
-        for (i in 0 until city.size) {
-            bindCityWeather(city[i])
-        }
+    //private fun submitCityDetails(city: MutableList<CityDetails>) {
+    private fun submitCityDetails(city: CityDetailsResponse) {
+            bindCityWeather(city)
     }
 
    //  https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
@@ -64,7 +62,8 @@ class CityDetailsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.cityStateFlow.collect { response ->
-                    val list = response?.cities
+                    val list = response
+//                    val list = response?.name
 
                     if (list != null) {
                         submitCityDetails(list)
