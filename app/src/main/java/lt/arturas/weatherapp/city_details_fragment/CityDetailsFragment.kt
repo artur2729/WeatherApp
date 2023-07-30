@@ -1,6 +1,7 @@
 package lt.arturas.weatherapp.city_details_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,7 @@ class CityDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_city_details, container, false)
+        //return inflater.inflate(R.layout.fragment_city_details, container, false)
 
         _binding = FragmentCityDetailsBinding.inflate(inflater, container, false)
         return binding.root

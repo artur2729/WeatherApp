@@ -2,6 +2,7 @@ package lt.arturas.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import lt.arturas.weatherapp.city_details_fragment.CityDetailsFragment

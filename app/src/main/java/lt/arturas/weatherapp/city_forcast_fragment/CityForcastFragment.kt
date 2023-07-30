@@ -23,7 +23,7 @@ class CityForcastFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_city_forcast, container, false)
+       // return inflater.inflate(R.layout.fragment_city_forcast, container, false)
 
         _binding = FragmentCityForcastBinding.inflate(inflater, container, false)
         return binding.root
