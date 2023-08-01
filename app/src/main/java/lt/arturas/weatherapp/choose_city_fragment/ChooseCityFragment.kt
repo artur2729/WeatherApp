@@ -2,6 +2,7 @@ package lt.arturas.weatherapp.choose_city_fragment
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,17 +41,18 @@ class ChooseCityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val cityName : String = "Vilnius"
-
-        onClickCitySearch(cityName)
+        onClickCitySearch()
 
 //        viewModel.fetchCity(cityName)
-//        observeNewsSourcesStateFlow()
+        //observeNewsSourcesStateFlow()
     }
 
-    private fun onClickCitySearch(cityName: String) {
+    private fun onClickCitySearch() {
         //onclick Search button ->
         binding.searchButton.setOnClickListener{
-            viewModel.fetchCity(cityName)
+            val cityValue = (binding.searchBar.text).toString()
+            viewModel.fetchCity(cityValue)
+            //Log.i(TAG, "onClickCitySearch: ${cityValue}")   //gets cityValue
             observeNewsSourcesStateFlow()
         }
     }
@@ -59,16 +61,18 @@ class ChooseCityFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.cityStateFlow.collect { response ->
+                viewModel.chooseCityStateFlow.collect { response ->
 //                    val list = response?.name
+                    Log.i(TAG, "observeNewsSourcesStateFlow: ${response?.name}")
 
                     if (response?.cod == "404"){
                         Toast.makeText(activity, "City not found, please try again", Toast.LENGTH_SHORT).show()
                     }
                     else{
                         if (response != null) {
+                            transferDataToCityDetailFragment(response.name)
                             (activity as WeatherActivity).openCityDetailsFragment()
-                            transferDataToCityDetailFragment(response)
+                            //transferDataToCityDetailFragment(response)
                         }
                     }
                 }
@@ -76,8 +80,9 @@ class ChooseCityFragment : Fragment() {
         }
     }
 
-    private fun transferDataToCityDetailFragment(city: CityDetailsResponse) {
-        val bundle = bundleOf(KEY_CITY_NAME to city.name)
+    private fun transferDataToCityDetailFragment(city: String) {
+        val bundle = bundleOf(KEY_CITY_NAME to city)
+        Log.i(TAG, "transferDataToCityDetailFragment: ${city}")
         setFragmentResult(REQUEST_KEY_CITY, bundle)
     }
 

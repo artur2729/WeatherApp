@@ -31,7 +31,7 @@ tools:context=".choose_city_fragment.ChooseCityFragment">
             the search bar or choose a city from the list" />
 
 
-        <TextView
+        <EditText
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -42,7 +42,6 @@ tools:context=".choose_city_fragment.ChooseCityFragment">
             android:lineSpacingExtra="10sp"
             android:textSize="40dp"
             android:translationY="-4.97sp"
-
             app:layout_constraintTop_toBottomOf="@+id/welcome_message"
             tools:hint="SearchBar"
             tools:layout_editor_absoluteX="0dp" />

@@ -2,23 +2,6 @@ package com.example.news.repository.reqres
 
 import com.google.gson.annotations.SerializedName
 
-//data class CityDetailsResponse(
-//    //val status: String = "",
-//    //val cities: MutableList<CityDetails> = mutableListOf()
-//
-////    @SerializedName("name")
-////    val cityInfo: CityDetails
-//
-//
-//    //val cityInfo: CityDetails? = null
-//
-//    @SerializedName("name")
-//    val name: String,
-//
-//    @SerializedName("visiblity")
-//    val visibility: String
-//)
-
 data class CityDetailsResponse(
     @SerializedName("base")
     val base: String = "",

@@ -10,9 +10,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CityDetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
-//    private val _cityStateFlow: MutableStateFlow<CityDetailsResponse?> =
-//        MutableStateFlow(CityDetailsResponse())
     private val _cityStateFlow: MutableStateFlow<CityDetailsResponse?> =
         MutableStateFlow(CityDetailsResponse())
 

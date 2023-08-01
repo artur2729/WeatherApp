@@ -13,13 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.repository.reqres.CityDetailsResponse
 import kotlinx.coroutines.launch
-import lt.arturas.weatherapp.R
 import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
-import lt.arturas.weatherapp.choose_city_fragment.recycle_view.CustomAdapter
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
 class CityDetailsFragment : Fragment() {
@@ -42,10 +38,10 @@ class CityDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        receiveDataFromNewsSourceFragment()
-        //viewModel.fetchCity()
+        receiveDataFromChooseCityFragment()
+        //viewModel.fetchCity("Vilnius")
 
-        observeNewsSourcesStateFlow()
+        observeCityStateFlow()
     }
 
 //    private fun setUpRecyclerView() {
@@ -72,7 +68,7 @@ class CityDetailsFragment : Fragment() {
 
    //  https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 
-    private fun observeNewsSourcesStateFlow() {
+    private fun observeCityStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
@@ -88,16 +84,17 @@ class CityDetailsFragment : Fragment() {
         }
     }
 
-    private fun receiveDataFromNewsSourceFragment() {
+    private fun receiveDataFromChooseCityFragment() {
         setFragmentResultListener(ChooseCityFragment.REQUEST_KEY_CITY) { requestKey, bundle ->
             val cityName = bundle.getString(ChooseCityFragment.KEY_CITY_NAME, "")
+            Log.i(TAG, "receiveDataFromChooseCityFragment: ${cityName}")
             viewModel.fetchCity(cityName)
         }
     }
 
     private fun transferDataToNewsDetailsFragment(city: CityDetailsResponse) {
-        val bundle = bundleOf(REQUEST_KEY_CITY to city)
-        setFragmentResult(KEY_CITY_NAME, bundle)
+        val bundle = bundleOf(REQUEST_KEY_CITY_DETAILS to city)
+        setFragmentResult(KEY_CITY_NAME_DETAILS, bundle)
     }
 
     override fun onDestroy() {
@@ -107,8 +104,8 @@ class CityDetailsFragment : Fragment() {
 
     companion object {
         const val TAG = "city_detail_fragment"
-        const val REQUEST_KEY_CITY = "city_fragment_result_key"
-        const val KEY_CITY_NAME = "key_city_name"
+        const val REQUEST_KEY_CITY_DETAILS = "city_fragment_result_key"
+        const val KEY_CITY_NAME_DETAILS = "key_city_name"
         fun newInstance() = CityDetailsFragment()
     }
 }
