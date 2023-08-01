@@ -6,18 +6,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.repository.reqres.CityDetailsResponse
 import kotlinx.coroutines.launch
 import lt.arturas.weatherapp.R
+import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
+import lt.arturas.weatherapp.choose_city_fragment.recycle_view.CustomAdapter
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
 class CityDetailsFragment : Fragment() {
 
     private val viewModel: CityDetailsViewModel by viewModels()
+    //private var recyclerAdapter: CustomAdapter? = null
 
     private var _binding: FragmentCityDetailsBinding? = null
     private val binding get() = _binding!!
@@ -27,8 +35,6 @@ class CityDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //return inflater.inflate(R.layout.fragment_city_details, container, false)
-
         _binding = FragmentCityDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,22 +42,30 @@ class CityDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchNewsSources()
+        receiveDataFromNewsSourceFragment()
+        //viewModel.fetchCity()
 
         observeNewsSourcesStateFlow()
     }
+
+//    private fun setUpRecyclerView() {
+//        binding.cityRecyclerView.apply {
+//            recyclerAdapter = CustomAdapter { source -> }
+//            adapter = recyclerAdapter
+//            layoutManager = LinearLayoutManager(activity)
+//            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//        }
+//    }
 
     private fun bindCityWeather(city: CityDetailsResponse) {
         binding.apply {
             cityName.text = city.name
             temp.text = city.main.temp.toString()
-            //temp.text = city.main.temp.toString()
-           // humidity.text = city.main.humidity.toString()
-           // windSpeed.text = city.wind.speed.toString()
+            humidity.text = city.main.humidity.toString()
+            windSpeed.text = city.wind.speed.toString()
         }
     }
 
-    //private fun submitCityDetails(city: MutableList<CityDetails>) {
     private fun submitCityDetails(city: CityDetailsResponse) {
             bindCityWeather(city)
     }
@@ -74,6 +88,18 @@ class CityDetailsFragment : Fragment() {
         }
     }
 
+    private fun receiveDataFromNewsSourceFragment() {
+        setFragmentResultListener(ChooseCityFragment.REQUEST_KEY_CITY) { requestKey, bundle ->
+            val cityName = bundle.getString(ChooseCityFragment.KEY_CITY_NAME, "")
+            viewModel.fetchCity(cityName)
+        }
+    }
+
+    private fun transferDataToNewsDetailsFragment(city: CityDetailsResponse) {
+        val bundle = bundleOf(REQUEST_KEY_CITY to city)
+        setFragmentResult(KEY_CITY_NAME, bundle)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -81,6 +107,8 @@ class CityDetailsFragment : Fragment() {
 
     companion object {
         const val TAG = "city_detail_fragment"
+        const val REQUEST_KEY_CITY = "city_fragment_result_key"
+        const val KEY_CITY_NAME = "key_city_name"
         fun newInstance() = CityDetailsFragment()
     }
 }

@@ -1,7 +1,6 @@
 package com.example.news.repository.reqres
 
 import com.google.gson.annotations.SerializedName
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetails
 
 //data class CityDetailsResponse(
 //    //val status: String = "",
@@ -26,7 +25,7 @@ data class CityDetailsResponse(
     @SerializedName("clouds")
     val clouds: Clouds = Clouds(0),
     @SerializedName("cod")
-    val cod: Int = 0,
+    val cod: String = "",
     @SerializedName("coord")
     val coord: Coord = Coord(0.0, 0.0),
     @SerializedName("dt")

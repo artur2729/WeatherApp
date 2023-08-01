@@ -19,9 +19,11 @@ class CityDetailsViewModel : ViewModel() {
 
     val cityStateFlow = _cityStateFlow.asStateFlow()
 
-    fun fetchNewsSources() {
+    fun fetchCity(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ApiServiceClient.providesApiService().getCityDetails()
+            val response = ApiServiceClient.providesApiService().getCityDetails(
+                cityName = cityName
+            )
             _cityStateFlow.value = response.body()
         }
     }

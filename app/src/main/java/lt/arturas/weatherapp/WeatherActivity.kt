@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.city_details_fragment.CityDetailsFragment
 import lt.arturas.weatherapp.databinding.ActivityMainBinding
 
@@ -19,12 +20,16 @@ class WeatherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            openCityDetailsFragment()
+            openChooseCityFragment()
         }
     }
 
-    private fun openCityDetailsFragment() {
+    fun openCityDetailsFragment() {
         setCurrentFragment(CityDetailsFragment.newInstance(), CityDetailsFragment.TAG)
+    }
+
+    private fun openChooseCityFragment() {
+        setCurrentFragment(ChooseCityFragment.newInstance(), ChooseCityFragment.TAG)
     }
 
     private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {
