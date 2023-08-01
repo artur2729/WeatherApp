@@ -40,42 +40,26 @@ class ChooseCityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cityName : String = "Vilnius"
         onClickCitySearch()
 
-//        viewModel.fetchCity(cityName)
-        //observeNewsSourcesStateFlow()
     }
 
     private fun onClickCitySearch() {
         //onclick Search button ->
-        binding.searchButton.setOnClickListener{
+        binding.searchButton.setOnClickListener {
             val cityValue = (binding.searchBar.text).toString()
             viewModel.fetchCity(cityValue)
-            //Log.i(TAG, "onClickCitySearch: ${cityValue}")   //gets cityValue
-            observeNewsSourcesStateFlow()
+            observeNewsSourcesStateFlow(cityValue)
         }
     }
 
-    private fun observeNewsSourcesStateFlow() {
+    private fun observeNewsSourcesStateFlow(cityValue: String) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.chooseCityStateFlow.collect { response ->
-//                    val list = response?.name
-                    Log.i(TAG, "observeNewsSourcesStateFlow: ${response?.name}")
+                transferDataToCityDetailFragment(cityValue)
+                (activity as WeatherActivity).openCityDetailsFragment()
 
-                    if (response?.cod == "404"){
-                        Toast.makeText(activity, "City not found, please try again", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        if (response != null) {
-                            transferDataToCityDetailFragment(response.name)
-                            (activity as WeatherActivity).openCityDetailsFragment()
-                            //transferDataToCityDetailFragment(response)
-                        }
-                    }
-                }
             }
         }
     }

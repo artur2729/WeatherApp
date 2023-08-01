@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -15,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.news.repository.reqres.CityDetailsResponse
 import kotlinx.coroutines.launch
+import lt.arturas.weatherapp.R
 import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
@@ -39,26 +41,43 @@ class CityDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         receiveDataFromChooseCityFragment()
-        //viewModel.fetchCity("Vilnius")
-
         observeCityStateFlow()
     }
 
-//    private fun setUpRecyclerView() {
-//        binding.cityRecyclerView.apply {
-//            recyclerAdapter = CustomAdapter { source -> }
-//            adapter = recyclerAdapter
-//            layoutManager = LinearLayoutManager(activity)
-//            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-//        }
-//    }
-
     private fun bindCityWeather(city: CityDetailsResponse) {
-        binding.apply {
-            cityName.text = city.name
-            temp.text = city.main.temp.toString()
-            humidity.text = city.main.humidity.toString()
-            windSpeed.text = city.wind.speed.toString()
+        if (city.name == "" ){
+            binding.apply {
+                cityName.text = "City not found"
+            }
+        }
+        else {
+            binding.apply {
+                WeatherImageView.background = null
+                if (city.weather[0].description == "broken clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "light rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "overcast clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "moderate rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "few clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "heavy intensity rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "clear sky") {
+                    WeatherImageView.setImageResource(R.drawable.sunny)
+                } else if (city.weather[0].description == "scattered clouds") {
+                    WeatherImageView.setImageResource(R.drawable.sunny)
+                }
+                cityName.text = city.name
+                WeatherImageView.setImageResource(R.drawable.cloud)
+                temp.text = "Temperature: " + (city.main.temp - 273.15).toFloat().toString() + " C"
+                humidity.text = "Humidity: " + city.main.humidity.toString() + "%"
+                windSpeed.text = "WindSpeed " + city.wind.speed.toString() + " meter/sec"
+                detailsTextView.text = "Weather description: " + city.weather[0].description
+
+            }
         }
     }
 
@@ -66,18 +85,13 @@ class CityDetailsFragment : Fragment() {
             bindCityWeather(city)
     }
 
-   //  https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-
     private fun observeCityStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.cityStateFlow.collect { response ->
-                    val list = response
-//                    val list = response?.name
-
-                    if (list != null) {
-                        submitCityDetails(list)
+                    if (response != null) {
+                            submitCityDetails(response)
                     }
                 }
             }
