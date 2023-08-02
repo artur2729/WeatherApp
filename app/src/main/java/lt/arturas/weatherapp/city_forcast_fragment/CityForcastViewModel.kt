@@ -7,24 +7,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
-//class CityForcastViewModel : ViewModel() {
-//    // TODO: Implement the ViewModel
-//}
+import lt.arturas.weatherapp.repository.open_weather_map.CityForcastResponse
 
 class CityForcastViewModel : ViewModel() {
-//    private val _cityStateFlow: MutableStateFlow<CityForcastResponse?> =
-//        MutableStateFlow(CityForcastResponse())
-//
-//
-//    val cityStateFlow = _cityStateFlow.asStateFlow()
-//
-//    fun fetchCity(cityName: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val response = ApiServiceClient.providesApiService().getCityDetails(
-//                cityName = cityName
-//            )
-//            _cityStateFlow.value = response.body()
-//        }
-//    }
+    private val _cityForcastFlow: MutableStateFlow<CityForcastResponse?> =
+        MutableStateFlow(CityForcastResponse())
+
+
+    val cityForcastFlow = _cityForcastFlow.asStateFlow()
+
+    fun fetchCityForcast(cityName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = ApiServiceClient.providesApiService().getCityForcast(
+                cityName = cityName
+            )
+            _cityForcastFlow.value = response.body()
+        }
+    }
 }

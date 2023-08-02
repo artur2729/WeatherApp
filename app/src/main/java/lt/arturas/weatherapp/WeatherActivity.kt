@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.city_details_fragment.CityDetailsFragment
+import lt.arturas.weatherapp.city_forcast_fragment.CityForcastFragment
 import lt.arturas.weatherapp.databinding.ActivityMainBinding
 
 class WeatherActivity : AppCompatActivity() {
@@ -24,12 +25,16 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-    fun openCityDetailsFragment() {
-        setCurrentFragment(CityDetailsFragment.newInstance(), CityDetailsFragment.TAG)
+    private fun openChooseCityFragment() {
+        setCurrentFragment(ChooseCityFragment.newInstance(), ChooseCityFragment.TAG, )
     }
 
-    private fun openChooseCityFragment() {
-        setCurrentFragment(ChooseCityFragment.newInstance(), ChooseCityFragment.TAG)
+    fun openCityDetailsFragment() {
+        setCurrentFragment(CityDetailsFragment.newInstance(), CityDetailsFragment.TAG, true)
+    }
+
+    fun openCityForcastFragment() {
+        setCurrentFragment(CityForcastFragment.newInstance(), CityForcastFragment.TAG, true)
     }
 
     private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {

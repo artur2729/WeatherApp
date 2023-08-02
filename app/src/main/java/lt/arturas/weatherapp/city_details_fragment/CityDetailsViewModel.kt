@@ -2,7 +2,7 @@ package lt.arturas.weatherapp.city_details_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.repository.reqres.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 import com.example.news.repository.reqres.ApiServiceClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

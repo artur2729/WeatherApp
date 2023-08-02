@@ -4,21 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.news.repository.reqres.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
-class CustomAdapter(
+class CustomForcastAdapter(
     private val onClick: (CityDetailsResponse) -> Unit
-) : ListAdapter<CityDetailsResponse, CustomViewHolder>(
+) : ListAdapter<CityDetailsResponse, CustomForcastViewHolder>(
     Comparator()
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CustomViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CustomForcastViewHolder(
         FragmentCityDetailsBinding
             .inflate(LayoutInflater.from(parent.context), parent, false),
         onClick
     )
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomForcastViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 

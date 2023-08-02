@@ -1,24 +1,19 @@
 package lt.arturas.weatherapp.choose_city_fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.news.repository.reqres.CityDetailsResponse
 import kotlinx.coroutines.launch
-import lt.arturas.weatherapp.R
 import lt.arturas.weatherapp.WeatherActivity
-import lt.arturas.weatherapp.city_forcast_fragment.CityForcastViewModel
 import lt.arturas.weatherapp.databinding.FragmentChooseCityBinding
 
 class ChooseCityFragment : Fragment() {

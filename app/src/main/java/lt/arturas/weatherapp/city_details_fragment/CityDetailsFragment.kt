@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -14,9 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.news.repository.reqres.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 import kotlinx.coroutines.launch
 import lt.arturas.weatherapp.R
+import lt.arturas.weatherapp.WeatherActivity
 import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
@@ -84,6 +84,18 @@ class CityDetailsFragment : Fragment() {
     private fun submitCityDetails(city: CityDetailsResponse) {
             bindCityWeather(city)
     }
+    private fun onClickCityForcast() {
+        //onclick Search button ->
+        binding.forcastButton.setOnClickListener {
+            val cityValue = (binding.cityName.text).toString()
+            //viewModel.fetchCity(cityValue)
+            transferDataToNewsDetailsFragment(cityValue)
+            (activity as WeatherActivity).openCityForcastFragment()
+            Log.i(TAG, "onClickCityForcast: $cityValue")
+            transferDataToNewsDetailsFragment(cityValue)
+        }
+    }
+
 
     private fun observeCityStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -92,6 +104,8 @@ class CityDetailsFragment : Fragment() {
                 viewModel.cityStateFlow.collect { response ->
                     if (response != null) {
                             submitCityDetails(response)
+
+                        onClickCityForcast()
                     }
                 }
             }
@@ -106,7 +120,7 @@ class CityDetailsFragment : Fragment() {
         }
     }
 
-    private fun transferDataToNewsDetailsFragment(city: CityDetailsResponse) {
+    private fun transferDataToNewsDetailsFragment(city: String) {
         val bundle = bundleOf(REQUEST_KEY_CITY_DETAILS to city)
         setFragmentResult(KEY_CITY_NAME_DETAILS, bundle)
     }

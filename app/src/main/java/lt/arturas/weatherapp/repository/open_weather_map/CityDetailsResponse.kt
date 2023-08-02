@@ -1,4 +1,4 @@
-package com.example.news.repository.reqres
+package lt.arturas.weatherapp.repository.open_weather_map
 
 import com.google.gson.annotations.SerializedName
 

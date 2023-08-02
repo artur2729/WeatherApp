@@ -1,10 +1,10 @@
 package lt.arturas.weatherapp.choose_city_fragment.recycle_view
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.news.repository.reqres.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
-class CustomViewHolder(
+class CustomForcastViewHolder(
     private val binding: FragmentCityDetailsBinding,
     private val onClick: (CityDetailsResponse) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
