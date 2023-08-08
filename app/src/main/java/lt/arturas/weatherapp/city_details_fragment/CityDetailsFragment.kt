@@ -1,22 +1,29 @@
 package lt.arturas.weatherapp.city_details_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.news.repository.reqres.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 import kotlinx.coroutines.launch
 import lt.arturas.weatherapp.R
+import lt.arturas.weatherapp.WeatherActivity
+import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
 
 class CityDetailsFragment : Fragment() {
 
     private val viewModel: CityDetailsViewModel by viewModels()
+    //private var recyclerAdapter: CustomAdapter? = null
 
     private var _binding: FragmentCityDetailsBinding? = null
     private val binding get() = _binding!!
@@ -26,8 +33,6 @@ class CityDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_city_details, container, false)
-
         _binding = FragmentCityDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,42 +40,89 @@ class CityDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchNewsSources()
-
-        observeNewsSourcesStateFlow()
+        receiveDataFromChooseCityFragment()
+        observeCityStateFlow()
     }
 
     private fun bindCityWeather(city: CityDetailsResponse) {
-        binding.apply {
-            cityName.text = city.name
-            temp.text = city.main.temp.toString()
-            //temp.text = city.main.temp.toString()
-           // humidity.text = city.main.humidity.toString()
-           // windSpeed.text = city.wind.speed.toString()
+        if (city.name == "" ){
+            binding.apply {
+                cityName.text = "City not found"
+            }
+        }
+        else {
+            binding.apply {
+                WeatherImageView.background = null
+                if (city.weather[0].description == "broken clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "light rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "overcast clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "moderate rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "few clouds") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "heavy intensity rain") {
+                    WeatherImageView.setImageResource(R.drawable.cloud)
+                } else if (city.weather[0].description == "clear sky") {
+                    WeatherImageView.setImageResource(R.drawable.sunny)
+                } else if (city.weather[0].description == "scattered clouds") {
+                    WeatherImageView.setImageResource(R.drawable.sunny)
+                }
+                cityName.text = city.name
+                WeatherImageView.setImageResource(R.drawable.cloud)
+                temp.text = "Temperature: " + (city.main.temp - 273.15).toFloat().toString() + " C"
+                humidity.text = "Humidity: " + city.main.humidity.toString() + "%"
+                windSpeed.text = "WindSpeed " + city.wind.speed.toString() + " meter/sec"
+                detailsTextView.text = "Weather description: " + city.weather[0].description
+
+            }
         }
     }
 
-    //private fun submitCityDetails(city: MutableList<CityDetails>) {
     private fun submitCityDetails(city: CityDetailsResponse) {
             bindCityWeather(city)
     }
+    private fun onClickCityForcast() {
+        //onclick Search button ->
+        binding.forcastButton.setOnClickListener {
+            val cityValue = (binding.cityName.text).toString()
+            //viewModel.fetchCity(cityValue)
+            transferDataToNewsDetailsFragment(cityValue)
+            (activity as WeatherActivity).openCityForcastFragment()
+            Log.i(TAG, "onClickCityForcast: $cityValue")
+            transferDataToNewsDetailsFragment(cityValue)
+        }
+    }
 
-   //  https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 
-    private fun observeNewsSourcesStateFlow() {
+    private fun observeCityStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.cityStateFlow.collect { response ->
-                    val list = response
-//                    val list = response?.name
+                    if (response != null) {
+                            submitCityDetails(response)
 
-                    if (list != null) {
-                        submitCityDetails(list)
+                        onClickCityForcast()
                     }
                 }
             }
         }
+    }
+
+    private fun receiveDataFromChooseCityFragment() {
+        setFragmentResultListener(ChooseCityFragment.REQUEST_KEY_CITY) { requestKey, bundle ->
+            val cityName = bundle.getString(ChooseCityFragment.KEY_CITY_NAME, "")
+            Log.i(TAG, "receiveDataFromChooseCityFragment: ${cityName}")
+            viewModel.fetchCity(cityName)
+        }
+    }
+
+    private fun transferDataToNewsDetailsFragment(city: String) {
+        val bundle = bundleOf(REQUEST_KEY_CITY_DETAILS to city)
+        setFragmentResult(KEY_CITY_NAME_DETAILS, bundle)
     }
 
     override fun onDestroy() {
@@ -80,6 +132,8 @@ class CityDetailsFragment : Fragment() {
 
     companion object {
         const val TAG = "city_detail_fragment"
+        const val REQUEST_KEY_CITY_DETAILS = "city_fragment_result_key"
+        const val KEY_CITY_NAME_DETAILS = "key_city_name"
         fun newInstance() = CityDetailsFragment()
     }
 }

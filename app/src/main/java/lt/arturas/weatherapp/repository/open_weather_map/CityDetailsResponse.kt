@@ -1,24 +1,6 @@
-package com.example.news.repository.reqres
+package lt.arturas.weatherapp.repository.open_weather_map
 
 import com.google.gson.annotations.SerializedName
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetails
-
-//data class CityDetailsResponse(
-//    //val status: String = "",
-//    //val cities: MutableList<CityDetails> = mutableListOf()
-//
-////    @SerializedName("name")
-////    val cityInfo: CityDetails
-//
-//
-//    //val cityInfo: CityDetails? = null
-//
-//    @SerializedName("name")
-//    val name: String,
-//
-//    @SerializedName("visiblity")
-//    val visibility: String
-//)
 
 data class CityDetailsResponse(
     @SerializedName("base")
@@ -26,7 +8,7 @@ data class CityDetailsResponse(
     @SerializedName("clouds")
     val clouds: Clouds = Clouds(0),
     @SerializedName("cod")
-    val cod: Int = 0,
+    val cod: String = "",
     @SerializedName("coord")
     val coord: Coord = Coord(0.0, 0.0),
     @SerializedName("dt")
