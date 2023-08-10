@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".city_forcast_fragment.CityForcastFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/forcastRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello"
-        android:background="@drawable/gradient_bg"/>
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:visibility="visible"
+        tools:listitem="@layout/fragment_city_forcast" />
 
 </FrameLayout>

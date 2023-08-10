@@ -13,17 +13,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityForcastResponse
 import kotlinx.coroutines.launch
 import lt.arturas.weatherapp.R
 import lt.arturas.weatherapp.WeatherActivity
 import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 
 class CityDetailsFragment : Fragment() {
 
     private val viewModel: CityDetailsViewModel by viewModels()
-    //private var recyclerAdapter: CustomAdapter? = null
 
     private var _binding: FragmentCityDetailsBinding? = null
     private val binding get() = _binding!!
