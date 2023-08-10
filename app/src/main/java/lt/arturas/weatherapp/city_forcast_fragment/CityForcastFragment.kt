@@ -42,7 +42,7 @@ class CityForcastFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView()
-        viewModel.fetchCityForcast("vilnius")
+        viewModel.fetchCityForcast("vilnius")     //as this fragment is not receiving data
         observeCityStateFlow()
         receiveDataFromCityForcastFragment()
     }
