@@ -3,10 +3,11 @@ package lt.arturas.weatherapp.choose_city_fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.repository.reqres.ApiServiceClient
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityForcastResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
 
 class ChooseCityViewModel : ViewModel() {
     private val _chooseCityStateFlow: MutableStateFlow<CityDetailsResponse?> =

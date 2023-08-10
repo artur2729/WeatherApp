@@ -4,16 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import lt.arturas.weatherapp.repository.open_weather_map.CityDetailsResponse
+import lt.arturas.weatherapp.repository.open_weather_map.CityForcastResponse
 import lt.arturas.weatherapp.databinding.FragmentCityDetailsBinding
+import lt.arturas.weatherapp.databinding.FragmentCityForcastBinding
+import lt.arturas.weatherapp.databinding.FragmentCityForcastListBinding
+import lt.arturas.weatherapp.repository.open_weather_map.Forcast
 
 class CustomForcastAdapter(
-    private val onClick: (CityDetailsResponse) -> Unit
-) : ListAdapter<CityDetailsResponse, CustomForcastViewHolder>(
+    private val onClick: (Forcast) -> Unit
+) : ListAdapter<Forcast, CustomForcastViewHolder>(
     Comparator()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CustomForcastViewHolder(
-        FragmentCityDetailsBinding
+        FragmentCityForcastBinding
             .inflate(LayoutInflater.from(parent.context), parent, false),
         onClick
     )
@@ -22,11 +25,11 @@ class CustomForcastAdapter(
         getItem(position)?.let { holder.bind(it) }
     }
 
-    class Comparator : DiffUtil.ItemCallback<CityDetailsResponse>() {
-        override fun areItemsTheSame(oldItem: CityDetailsResponse, newItem: CityDetailsResponse) =
-            oldItem.name == newItem.name
+    class Comparator : DiffUtil.ItemCallback<Forcast>() {
+        override fun areItemsTheSame(oldItem: Forcast, newItem: Forcast) =
+            oldItem.dt_txt == newItem.dt_txt
 
-        override fun areContentsTheSame(oldItem: CityDetailsResponse, newItem: CityDetailsResponse) =
+        override fun areContentsTheSame(oldItem: Forcast, newItem: Forcast) =
             oldItem == newItem
     }
 }

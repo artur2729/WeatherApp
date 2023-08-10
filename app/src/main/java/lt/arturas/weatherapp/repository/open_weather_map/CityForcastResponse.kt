@@ -28,6 +28,6 @@ data class MainForcast(
 )
 
 data class WeatherForcast(
-    @SerializedName("temp")
+    @SerializedName("description")
     val description: String
 )
