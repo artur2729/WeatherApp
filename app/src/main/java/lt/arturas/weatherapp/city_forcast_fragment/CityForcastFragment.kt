@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import lt.arturas.weatherapp.choose_city_fragment.ChooseCityFragment
 import lt.arturas.weatherapp.choose_city_fragment.recycle_view.CustomForcastAdapter
 import lt.arturas.weatherapp.city_details_fragment.CityDetailsFragment
 import lt.arturas.weatherapp.databinding.FragmentCityForcastListBinding
@@ -24,7 +25,7 @@ class CityForcastFragment : Fragment() {
 
     private val viewModel: CityForcastViewModel by viewModels()
 
-    private var _binding: FragmentCityForcastListBinding? = null  //FragmentCityForcastBinding
+    private var _binding: FragmentCityForcastListBinding? = null
     private var recyclerAdapter: CustomForcastAdapter? = null
     private val binding get() = _binding!!
 
@@ -66,7 +67,6 @@ class CityForcastFragment : Fragment() {
                 viewModel.cityForcastFlow.collect { response ->
                     if (response != null) {
                         Log.i(TAG, "observeCityStateFlow: $response")
-                        //submitCityForcast(response)
                         val list = response?.list
 
                         if (list != null) {
@@ -86,7 +86,7 @@ class CityForcastFragment : Fragment() {
     private fun receiveDataFromCityForcastFragment() {
         setFragmentResultListener(CityDetailsFragment.REQUEST_KEY_CITY_DETAILS) { requestKey, bundle ->
             val cityName = bundle.getString(CityDetailsFragment.KEY_CITY_NAME_DETAILS, "")
-            Log.i(CityDetailsFragment.TAG, "receiveDataFromCityForcastFragment: ${cityName}")
+            Log.i(TAG, "receiveDataFromCityForcastFragment: ${cityName}")
             viewModel.fetchCityForcast(cityName)
         }
     }

@@ -88,11 +88,8 @@ class CityDetailsFragment : Fragment() {
         //onclick Search button ->
         binding.forcastButton.setOnClickListener {
             val cityValue = (binding.cityName.text).toString()
-            //viewModel.fetchCity(cityValue)
-            transferDataToNewsDetailsFragment(cityValue)
             (activity as WeatherActivity).openCityForcastFragment()
-            Log.i(TAG, "onClickCityForcast: $cityValue")
-            transferDataToNewsDetailsFragment(cityValue)
+            transferDataToCityForcastFragment(cityValue)
         }
     }
 
@@ -115,14 +112,14 @@ class CityDetailsFragment : Fragment() {
     private fun receiveDataFromChooseCityFragment() {
         setFragmentResultListener(ChooseCityFragment.REQUEST_KEY_CITY) { requestKey, bundle ->
             val cityName = bundle.getString(ChooseCityFragment.KEY_CITY_NAME, "")
-            Log.i(TAG, "receiveDataFromChooseCityFragment: ${cityName}")
             viewModel.fetchCity(cityName)
         }
     }
 
-    private fun transferDataToNewsDetailsFragment(city: String) {
+    private fun transferDataToCityForcastFragment(city: String) {
         val bundle = bundleOf(REQUEST_KEY_CITY_DETAILS to city)
         setFragmentResult(KEY_CITY_NAME_DETAILS, bundle)
+        Log.i(TAG, "transferDataToCityForcastFragment: $city")
     }
 
     override fun onDestroy() {
