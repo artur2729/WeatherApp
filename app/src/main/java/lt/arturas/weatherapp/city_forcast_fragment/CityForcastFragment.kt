@@ -41,6 +41,7 @@ class CityForcastFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView()
+        viewModel.fetchCityForcast("vilnius")
         observeCityStateFlow()
         receiveDataFromCityForcastFragment()
     }
